@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CarBids;
 use App\Cars;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -37,7 +38,7 @@ class CarBiddingController extends Controller
      */
     public function store(Request $request)
     {
-        $inputs = Input::get();
+        $inputs = $request->input();
 
         return response([
             'car_id' => $inputs['car_id'],
