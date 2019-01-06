@@ -15,6 +15,9 @@ class CreateTableCarBiddings extends Migration
     {
         Schema::create('car_biddings', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('car_id');
+            $table->unsignedInteger('user_id');
+            $table->integer('amount');
             $table->timestamps();
         });
     }
