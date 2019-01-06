@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Cars;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $cars = Cars::join('car_biddings', 'car_biddings.car_id', 'cars.id')
+            ->join('car_images', 'cars.id', 'car_images.car_id')
+            ->where('user_id', Auth::user()->getAuthIdentifier())
+            ->paginate(50);
+
+        return view('home')->with('cars', $cars);
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Car;
+use App\Cars;
+use App\CarImages;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class InstallCarData extends Command
 {
@@ -44,19 +46,24 @@ class InstallCarData extends Command
      */
     public function handle()
     {
-        Car::truncate();
-        foreach ($this->data as $datum) {
+        DB::table('cars')->delete();
+        DB::table('car_images')->delete();
+        foreach ($this->data as $index => $datum) {
             $datum[3] = json_decode($datum[3]);
             for ($i = 0; $i < count($datum[3]); $i++) {
-                $car = new Car();
+                $car = new Cars();
+                $car_image = new CarImages();
                 $car->year = (int)$datum[0];
                 $car->make = $datum[1];
                 $car->model = $datum[2];
                 $car->body_style = $datum[3][$i];
                 $car->save();
+                $car_image->car_id = $car->id;
+                $car_image->image = str_pad($index, 5, "0", STR_PAD_LEFT) . '.jpg';
+                $car_image->save();
             }
         }
 
-        $this->info(Car::all()->count() . ' cars imported.');
+        $this->info(Cars::all()->count() . ' cars imported.');
     }
 }

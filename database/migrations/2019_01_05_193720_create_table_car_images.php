@@ -18,6 +18,7 @@ class CreateTableCarImages extends Migration
             $table->unsignedInteger('car_id');
             $table->string('image');
             $table->timestamps();
+            $table->foreign('car_id')->references('id')->on('cars')->onDelete('cascade');
         });
     }
 

@@ -19,6 +19,7 @@ class CreateTableCarBiddings extends Migration
             $table->unsignedInteger('user_id');
             $table->integer('amount');
             $table->timestamps();
+            $table->foreign('car_id')->references('id')->on('cars')->onDelete('cascade');
         });
     }
 
