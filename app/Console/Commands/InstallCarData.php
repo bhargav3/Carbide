@@ -57,6 +57,6 @@ class InstallCarData extends Command
             }
         }
 
-        dd(Car::all()->count());
+        $this->info(Car::all()->count() . ' cars imported.');
     }
 }
